@@ -237,29 +237,29 @@ const Scheduler = struct {
             } else if (self.kind == SchedulerKind.sr and new_arrival) {
                 self.ready_que.enque(curr.*);
                 self.current = self.select();
-                // } else if (self.kind == SchedulerKind.fb and curr.time_in_cpu == self.kind.fb.quant) {
-                //         // TODO: put the logic for feed back queue here
-                //         // Add any vaiables needed (see new_arrival and self.current.?.time_in_cpu
-                //         // their only used for the specific scheduler)
+            } else if (self.kind == SchedulerKind.fb and curr.time_in_cpu == self.kind.fb.quant) {
+                // TODO: put the logic for feed back queue here
+                // Add any vaiables needed (see new_arrival and self.current.?.time_in_cpu
+                // their only used for the specific scheduler)
 
-                //         // switch out process at each time quantum, and increase prio_val
-                //     if (curr.prio_val == 0) {
-                //         curr.time_in_cpu = 0;
-                //         self.ready_que.enque(curr.*);
-                //         self.current = self.select();
-                //         curr.prio_val += 1;
-                //     } else if (curr.prio_val == 1) {
-                //         self.kind.fb.quant *= 2;
-                //         curr.time_in_cpu = 0;
-                //         self.ready_que.enque(curr.*);
-                //         self.current = self.select();
-                //         curr.prio_val += 1;
-                //     } else if (curr.prio_val == 2) {
-                //         self.kind.fb.quant *= 3;
-                //         curr.time_in_cpu = 0;
-                //         self.ready_que.enque(curr.*);
-                //         self.current = self.select();
-                //     }
+                // switch out process at each time quantum, and increase prio_val
+                if (curr.prio_val == 0) {
+                    curr.time_in_cpu = 0;
+                    self.ready_que.enque(curr.*);
+                    self.current = self.select();
+                    curr.prio_val += 1;
+                } else if (curr.prio_val == 1) {
+                    self.kind.fb.quant *= 2;
+                    curr.time_in_cpu = 0;
+                    self.ready_que.enque(curr.*);
+                    self.current = self.select();
+                    curr.prio_val += 1;
+                } else if (curr.prio_val == 2) {
+                    self.kind.fb.quant *= 3;
+                    curr.time_in_cpu = 0;
+                    self.ready_que.enque(curr.*);
+                    self.current = self.select();
+                }
             }
         }
 
