@@ -22,7 +22,7 @@ The input file will be a .csv containing a list of processes, at which CPU cycle
 Each line in the file will either begin with a " character indicating it is a process or a , character indicating it is an I/O burst for the preceding process.
 Architecture
 
-[scheduler_map](./scheduler_map.png)
+![alt text](https://github.com/wmucs4541/CPUsim-zig/blob/main/scheduler_map.png "Scheduler Process Diagram")
 
 Here is the suggested architecture. When the __CPU__ cycle clock is equal to the arrival time for a process in the __Arrival Queue__, it is moved from there into the __Ready Queue__. When a process is in any blue queue, its time spent waiting increases. When a process is inside the __I/O Wait Queue__, its current I/O burst time decreases. When a process is in the __CPU__, its remaining time for service decreases (you need to remember the initial service time for output). When a process inside the __I/O Wait Queue__ has its current I/O burst time reach zero, it is moved from there to the __Ready__. When a process in the __CPU__ reaches zero remaining time for service, it is moved from there into the __Finish Queue__.
 

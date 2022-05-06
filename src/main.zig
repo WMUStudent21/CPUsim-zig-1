@@ -22,7 +22,7 @@ const Proc = struct {
     time_in_io_wait: u64 = 0,
     time_in_cpu: u64 = 0,
     io_bursts: std.ArrayList([2]u64),
-    // prio_val: u64 = 0,
+    prio_val: u64 = 0,
 
     pub fn init(gpa: std.mem.Allocator, pid: []const u8, arrival: u64, service: u64) Self {
         return Self{
@@ -231,17 +231,7 @@ const Scheduler = struct {
             } else if (curr.io_bursts.items.len > 0 and (curr.service_time - curr.remaining_time) == curr.io_bursts.items[0][0]) {
                 self.iowait_que.enque(curr.*);
                 self.current = self.select();
-            // } else if (self.kind == SchedulerKind.rr and curr.time_in_cpu == self.kind.rr.quant) {
             } else if (self.kind == SchedulerKind.rr) {
-                // if rem_bt > self.kind.rr.quant:
-                //     t += quantum
-                //     rem_bt[i] -= quantum
-                // else:
-                //     t += rem_bt[i]
-                //     wt[i] = t - bt[i]
-                //     rem_bt[i] = 0
-
-                // curr.time_in_cpu = 0 ;
                 self.ready_que.enque(curr.*);
                 self.current = self.select();
             } else if (self.kind == SchedulerKind.sr and new_arrival) {
